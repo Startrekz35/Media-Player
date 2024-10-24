@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QMenuBar, QAction, QSlider, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QMenuBar, QAction, QSlider, QVBoxLayout, QHBoxLayout, QWidget, QFrame, QSpacerItem, QSizePolicy
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QKeySequence
 
 
@@ -11,12 +12,12 @@ class MediaPlayer(QMainWindow):
         self.setWindowTitle('Media Player')
         self.setGeometry(200, 200, 800, 600) #(x, y, width, height)
 
-
-        central_widget = QWidget(self)
-        self.setCentralWidget(central_widget)
-        main_layout = QVBoxLayout()
-
-        central_widget.setStyleSheet("background-color: black;")
+        #central/main layout
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        
+        
+        main_layout = QVBoxLayout(self.central_widget)
 
 
         #menu bar list
@@ -42,9 +43,22 @@ class MediaPlayer(QMainWindow):
         #View Menu List
         view_menu.addAction(open_view)
 
+        #The video box itself
+        self.video_placeholder = QWidget(self)
+        self.video_placeholder.setStyleSheet("background-color: black")
+        main_layout.addWidget(self.video_placeholder)
+        self.video_placeholder.setMinimumHeight(500)
 
-    
-    
+
+        main_layout.setStretch(0, 5)
+
+        self.media_control_bar = QFrame(self)
+        self.media_control_bar.setFrameShape(QFrame.Box)
+        self.media_control_bar.setMinimumHeight(50)
+        
+        main_layout.setStretch(1, 1)
+
+        main_layout.addWidget(self.media_control_bar)
     def open_video(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Open Video", "", "Video Files (*.mp4 *.avi *.flv *.mkv *.mov *.avchd *.webm *.avi *.wmv)")
         if file_name:
