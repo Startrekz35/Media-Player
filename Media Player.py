@@ -42,6 +42,9 @@ class MediaPlayer(QMainWindow):
 
         #View Menu List
         view_menu.addAction(open_view)
+        #Play Menu List
+        open_play = QAction("Play", self)
+        play_menu.addAction(open_play)
 
         #The video box itself
         self.video_placeholder = QWidget(self)
